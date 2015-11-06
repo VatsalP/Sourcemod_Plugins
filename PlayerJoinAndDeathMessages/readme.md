@@ -2,10 +2,13 @@ Description:
 Prints join message to chat when a player joins and death message when a player dies. Made it for Insurgency but should work for most games.
 
 Cvar:
+
 sm_deathmessage 1
 Enables or disables death message
+
 sm_joinmessage 1
 Enables or disables join message
+
 sm_dmsg "Long Live The Queen"
 Death message to be printed goes between the quotes
 
