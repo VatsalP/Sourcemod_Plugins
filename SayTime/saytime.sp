@@ -23,28 +23,24 @@ public void OnPluginStart()
 {
 	cv_advertise = CreateConVar("sm_advertise", "1", "Enable or Disable(1/0) advertise at start of each round", FCVAR_PLUGIN | FCVAR_NOTIFY);
 	RegConsoleCmd("sm_time", SayTime);
+	
 	HookEvent("player_disconnect", PlayerDisconnect);
-	HookEvent("player_activate", PlayerConnect);
 	if (GetConVarBool(cv_advertise))
 	{
 		HookEvent("round_start", RoundStart);
 	}
-}
-
-/*
-public OnClientAuthorized(client, const String:auth[]) 
-{
-	if(!IsFakeClient(client)) {
-		intial[client] = GetEngineTime();
+	
+	int i;
+	for (i = 1; i < MAXPLAYERS; i++)
+	{
+		intial[i] = 0.0;
 	}
 }
-*/
 
-public Action PlayerConnect(Event event, const char[] name, bool dontbroadcast)
+public OnClientPutInServer(client)
 {
-	int client;
-	client = event.GetInt("userid");
-	if(!IsFakeClient(client)) {
+	if(intial[client] == 0.0)
+	{
 		intial[client] = GetEngineTime();
 	}
 }
@@ -85,9 +81,9 @@ public Action Advertise(Handle timer) // Prints message after 10 seconds every r
 
 public Action PlayerDisconnect(Event event, const char[] name, bool dontbroadcast)
 {
+	int clientid;
 	int client;
-	client = event.GetInt("userid");
-	if(!IsFakeClient(client)) {
-		intial[client] = 0.0;
-	}
+	clientid = GetEventInt(event, "userid");
+	client = GetClientOfUserId(clientid);
+	intial[client] = 0.0;
 }
