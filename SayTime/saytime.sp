@@ -21,7 +21,7 @@ float intial[MAXPLAYERS]; //Stores the time when the player joins
 
 public void OnPluginStart()
 {
-	cv_advertise = CreateConVar("sm_advertise", "1", "Enable or Disable(1/0) advertise at start of each round", FCVAR_PLUGIN | FCVAR_NOTIFY);
+	cv_advertise = CreateConVar("sm_advertise", "1", "Enable or Disable(1/0) advertise at start of each round", FCVAR_NOTIFY);
 	RegConsoleCmd("sm_time", SayTime);
 	
 	HookEvent("player_disconnect", PlayerDisconnect);
@@ -65,7 +65,7 @@ public Action SayTime(int client, int args)
 		s = s % 60;
 		
 		
-		ReplyToCommand(client, "\x01You have spent \x04%d H: %d M: %d S\x01 second on the server", h, m, s);
+		ReplyToCommand(client, "\x01You have spent \x04%d H: %d M: %d S\x01 on the server", h, m, s);
 		return Plugin_Handled;
 }
 
